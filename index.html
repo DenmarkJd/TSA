@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TSA</title>
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .nav {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            top: 0;
+            transition: background-color 0.3s;
+        }
+
+        .nav.scrolled {
+            background-color: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff8f00;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #ff8f00;
+        }
+
+        .menu-button {
+            display: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('./header.jpeg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 22px;
+            margin-bottom: 15px;
+            opacity: 0.95;
+        }
+
+        .hero p:last-of-type {
+            margin-bottom: 40px;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            padding: 14px 40px;
+            background-color: #ff8f00;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .hero-btn:hover {
+            background-color: #e67e00;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .about-section {
+            background-color: #fff;
+        }
+
+        .about-text {
+            font-size: 18px;
+            color: #444;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .about-text strong {
+            color: #ff8f00;
+            font-weight: 600;
+        }
+
+        .cities-list {
+            margin: 30px 0;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+            border-radius: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .cities-list p {
+            margin-bottom: 12px;
+            font-size: 17px;
+        }
+
+        .cities-list strong {
+            color: #ff8f00;
+            font-size: 18px;
+        }
+
+        .fleet-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+        }
+
+        .fleet-text {
+            font-size: 20px;
+            color: #333;
+            text-align: center;
+            max-width: 850px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .fleet-text strong {
+            color: #ff8f00;
+        }
+
+        .schedule-section {
+            background-color: #fff;
+        }
+
+        .schedule-section h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+            color: #333;
+        }
+
+        .schedule-list {
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .schedule-item {
+            padding: 18px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
+        }
+
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-date {
+            min-width: 160px;
+            font-weight: 700;
+            color: #ff8f00;
+            font-size: 16px;
+        }
+
+        .schedule-desc {
+            color: #555;
+            flex: 1;
+            font-size: 16px;
+        }
+
+        .schedule-desc small {
+            color: #888;
+            font-size: 13px;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('./footer.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+        }
+
+        .form-section .container {
+            max-width: 850px;
+        }
+
+        .form-section h2 {
+            color: white;
+            text-align: center;
+            font-size: 38px;
+            margin-bottom: 20px;
+        }
+
+        .form-section p {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 50px;
+            opacity: 0.9;
+        }
+
+        .booking-form {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 45px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: white;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            font-size: 16px;
+            color: white;
+            font-family: inherit;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        select {
+            color: white;
+            background: rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+        }
+
+        select option {
+            background: #333;
+            color: white;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #ff8f00;
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background-color: #ff8f00;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 25px;
+        }
+
+        .submit-btn:hover {
+            background-color: #e67e00;
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: #ff8f00;
+            margin: 35px 0 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .section-title:first-of-type {
+            margin-top: 0;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background-color: #0a0a0a;
+            color: white;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .contact-info h3 {
+            color: #ff8f00;
+            font-size: 22px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .contact-info p {
+            margin-bottom: 12px;
+            line-height: 1.8;
+            color: #ccc;
+        }
+
+        .contact-info a {
+            color: #ff8f00;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        .disclaimer {
+            grid-column: 1 / -1;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid #2a2a2a;
+            font-size: 13px;
+            color: #888;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .copyright {
+            text-align: center;
+            padding: 25px;
+            background-color: #050505;
+            color: #666;
+            font-size: 13px;
+        }
+
+        .success-message {
+            display: none;
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 25px;
+            border: 1px solid #4CAF50;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: rgba(0, 0, 0, 0.95);
+                flex-direction: column;
+                padding: 20px;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .nav-menu.show {
+                display: flex;
+            }
+
+            .menu-button {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .container {
+                padding: 50px 20px;
+            }
+
+            .about-text {
+                font-size: 16px;
+            }
+
+            .fleet-text {
+                font-size: 18px;
+            }
+
+            .schedule-item {
+                flex-direction: column;
+                gap: 8px;
+                padding: 15px 0;
+            }
+
+            .schedule-date {
+                min-width: auto;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+
+            .booking-form {
+                padding: 30px 20px;
+            }
+
+            .form-section h2 {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .cities-list {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav" id="navbar">
+        <div class="container">
+            <a href="#" class="logo">TSA</a>
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#fleet" class="nav-link">Fleet</a>
+                <a href="#schedule" class="nav-link">Schedule</a>
+                <a href="#booking-section" class="nav-link">Reserve</a>
+            </div>
+            <div class="menu-button" id="menuBtn">☰</div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Tangled Synapses Aviation</h1>
+            <p>Your preferred aircraft charter company to attend the 2026 FIFA Soccer World Cup in Mexico, USA and Canada.</p>
+            <button onclick="scrollToForm()" class="hero-btn">Reserve Your Aircraft</button>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-text">
+                Since the <strong>2014 Brazil World Cup</strong>, the <strong>2018 Russia World Cup</strong> and the <strong>2022 Qatar World Cup</strong>, we are flying soccer fans and national teams to this magnificent event. In <strong>2026</strong>, we will be flying fans and soccer teams from all over the world, to the following 16 cities in Mexico, Canada and the USA to attend the games.
+            </div>
+
+            <div class="cities-list">
+                <p><strong>🇲🇽 Mexico:</strong> Mexico City, Guadalajara, Monterrey.</p>
+                <p><strong>🇨🇦 Canada:</strong> Toronto, Vancouver.</p>
+                <p><strong>🇺🇸 USA:</strong> Seattle, Boston, Philadelphia, San Francisco, Houston, Kansas City, Dallas, New York/New Jersey, Los Angeles, Atlanta, Miami.</p>
+            </div>
+
+            <div class="about-text">
+                The <strong>2026 FIFA Soccer World Cup</strong> will take place from <strong>June 11, 2026 through July 19, 2026</strong>, where 48 national soccer teams from the Americas, Europe, the Middle East, Asia, Africa and Australia will dispute the World Soccer Cup.
+            </div>
+        </div>
+    </section>
+
+    <!-- Fleet Section -->
+    <section id="fleet" class="fleet-section">
+        <div class="container">
+            <div class="fleet-text">
+                We have <strong>A320s, B737s, Airbus 330s-350s, Boeing 777s-787s</strong> aircraft carrying 100-300 pax, as well as <strong>private jets, turboprops, helicopters and limousines</strong>.
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section id="schedule" class="schedule-section">
+        <div class="container">
+            <h2>FIFA World Cup 2026 Schedule</h2>
+            
+            <div class="schedule-list">
+                <div class="schedule-item">
+                    <div class="schedule-date">Opening Ceremony</div>
+                    <div class="schedule-desc">Thursday, June 11, 2026, at Estadio Azteca, Mexico City</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-date">Group Stage</div>
+                    <div class="schedule-desc">June 11–27, 2026</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-date">Round of 32</div>
+                    <div class="schedule-desc">June 28–July 3, 2026</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-date">Round of 16</div>
+                    <div class="schedule-desc">July 4–7, 2026</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-date">Quarterfinals</div>
+                    <div class="schedule-desc">July 9–11, 2026</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-date">Semifinals</div>
+                    <div class="schedule-desc">July 14–15, 2026 <small>(Dallas and Atlanta)</small></div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-date">Third-Place Match</div>
+                    <div class="schedule-desc">July 18, 2026, in Miami</div>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-date">World Cup Final</div>
+                    <div class="schedule-desc">Sunday, July 19, 2026, at MetLife Stadium, New Jersey</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking-section" class="form-section">
+        <div class="container">
+            <h2>Secure Your Aircraft</h2>
+            <p>Secure your aircraft and enjoy early rates, as with dates approaching, prices would increase. To reserve your aircraft, please fill the following form:</p>
+            
+            <div class="booking-form">
+                <form id="reserveForm" action="https://formspree.io/f/xdawpwdj" method="POST">
+                    
+                    <!-- Country / Team -->
+                    <div class="form-group">
+                        <label for="country-team">Country / Team *</label>
+                        <input type="text" id="country-team" name="Country/Team" placeholder="e.g., Brazil, Argentina, USA" required>
+                    </div>
+
+                    <h3 class="section-title">Departure</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="departing-city">Departing City *</label>
+                            <input type="text" id="departing-city" name="Departing City" placeholder="e.g., New York, London" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="arrival-city">Arriving City *</label>
+                            <input type="text" id="arrival-city" name="Arriving City" placeholder="e.g., Mexico City, Toronto" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="departure-date">Departing Date *</label>
+                            <input type="date" id="departure-date" name="Departing Date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="passengers-departure">Number of Pax *</label>
+                            <input type="number" id="passengers-departure" name="Departing Passengers" placeholder="e.g., 50, 70, 100, 150, 200, 250" required>
+                        </div>
+                    </div>
+
+                    <h3 class="section-title">Return</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="return-city">Returning City *</label>
+                            <input type="text" id="return-city" name="Returning City" placeholder="e.g., New York, London" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="return-arrival">Arriving City *</label>
+                            <input type="text" id="return-arrival" name="Return Arrival City" placeholder="e.g., Mexico City, Toronto" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="return-date">Returning Date *</label>
+                            <input type="date" id="return-date" name="Returning Date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="passengers-return">Number of Pax *</label>
+                            <input type="number" id="passengers-return" name="Return Passengers" placeholder="e.g., 50, 70, 100, 150, 200, 250" required>
+                        </div>
+                    </div>
+
+                    <h3 class="section-title">Contact</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="full-name">Full Name *</label>
+                            <input type="text" id="full-name" name="Full Name" placeholder="John Doe" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="Email" placeholder="john@example.com" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="Phone" placeholder="+57 315 899 4353" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="company">Company/Organization</label>
+                            <input type="text" id="company" name="Company" placeholder="e.g., Football Federation">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Submit Reservation Request</button>
+                </form>
+                
+                <div id="successMessage" class="success-message">
+                    Thank you! Your reservation request has been sent. Our team will contact you within 24 hours.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>TANGLED SYNAPSES AVIATION</h3>
+                    <p>Dubai World Central<br>
+                    Bldg. A4, Office 312<br>
+                    Dubai Aviation City<br>
+                    Dubai, UAE</p>
+                </div>
+                
+                <div class="contact-info">
+                    <h3>Reservations</h3>
+                    <p><a href="tel:+573158994353">+57 315 899 4353</a></p>
+                    <p><a href="tel:+573245396095">+57 324 539 6095</a></p>
+                </div>
+                
+                <div class="disclaimer">
+                    <p>Tangled Synapses Aviation is not an aircraft operator. All aircraft are operated by FAA part 135 or part 121 operators, or foreign CAA equivalent. Tangled Synapses Aviation, is a charter broker working on behalf of MayFair Jets inc. as defined by DOT 14 CFR part 295. Copyright ©️ 2008-2026</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="copyright">
+        <div>© 2014-2026 TANGLED SYNAPSES AVIATION. All Rights Reserved.</div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle - Fixed
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        menuBtn.addEventListener('click', function() {
+            navMenu.classList.toggle('show');
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('show');
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll function
+        function scrollToForm() {
+            document.getElementById('booking-section').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Form handling with Formspree
+        document.getElementById('reserveForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const form = this;
+            const submitBtn = form.querySelector('.submit-btn');
+            const successMsg = document.getElementById('successMessage');
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            
+            try {
+                const formData = new FormData(form);
+                
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    form.reset();
+                    successMsg.style.display = 'block';
+                    submitBtn.textContent = 'Submit Reservation Request';
+                    submitBtn.disabled = false;
+                    
+                    setTimeout(() => {
+                        successMsg.style.display = 'none';
+                    }, 5000);
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            } catch (error) {
+                alert('Something went wrong. Please try again or call us directly.');
+                submitBtn.textContent = 'Submit Reservation Request';
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!menuBtn.contains(event.target) && !navMenu.contains(event.target)) {
+                navMenu.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>
